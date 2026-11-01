@@ -207,17 +207,6 @@ header.solid{background:rgba(10,11,9,.82);backdrop-filter:blur(12px);padding:10p
 .courses .track span{display:flex;gap:40px;align-items:center}
 .courses .track b{font-family:var(--marker);font-weight:400;font-style:normal;font-size:12px;color:var(--orange);text-transform:none;letter-spacing:0}
 
-/* route map */
-.route{padding:clamp(80px,9vw,140px) 0 20px;position:relative}
-.route h2{font-family:var(--disp);font-weight:800;font-style:italic;text-transform:uppercase;font-size:clamp(46px,6.6vw,104px);line-height:.88;margin-top:14px}
-.route h2 em{font-family:var(--serif);font-style:italic;font-weight:300;text-transform:none;color:var(--green);font-size:.7em}
-.map-wrap{position:relative;margin-top:30px}
-.map-wrap svg{width:100%;height:auto;overflow:visible}
-.map-wrap .path{fill:none;stroke:var(--cream);stroke-width:3;stroke-dasharray:10 12;stroke-linecap:round;opacity:.9}
-.map-wrap .path2{fill:none;stroke:var(--green);stroke-width:4;stroke-linecap:round}
-.map-wrap .lbl{font-family:var(--marker);font-size:22px;fill:var(--cream)}
-.map-wrap .sub{font-family:var(--serif);font-style:italic;font-size:15px;fill:#c9c1ab}
-.map-wrap .num{font-family:var(--disp);font-weight:800;font-style:italic;font-size:46px;fill:var(--green)}
 
 /* scorecard booking */
 .book{padding:clamp(80px,9vw,140px) 0;position:relative}
@@ -439,8 +428,6 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
   .menu-cols,.notes{grid-template-columns:1fr}
   .pinned:nth-child(n){transform:none}
   .badge{position:relative;top:auto;right:auto;margin-top:24px;width:130px;height:130px}
-  .map-wrap{overflow-x:auto;scrollbar-width:none;padding-bottom:10px}
-  .map-wrap svg{min-width:900px}
   .rail{display:none}
   .margin-note{position:static;width:auto;margin-top:16px;transform:rotate(-2deg)}
   .book .lead{justify-self:start}
@@ -590,24 +577,6 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
   </div>
 </section>
 
-<section class="route" id="how">
-  <div class="wrap">
-    <div class="chap">No. 04 — How a night goes</div>
-    <h2 class="rv">Tee to green <em>in three.</em></h2>
-    <div class="map-wrap rv d1">
-      <svg viewBox="0 0 1200 420" aria-hidden="true">
-        <path class="path" id="routePath" d="M60 340 C 200 300, 260 120, 420 140 S 640 330, 800 240 S 1050 80, 1140 120"/>
-        <path class="path2" id="routeDraw" d="M60 340 C 200 300, 260 120, 420 140 S 640 330, 800 240 S 1050 80, 1140 120"/>
-        <circle id="routeBall" r="9" fill="#fff" stroke="#0a0b09" stroke-width="2"/>
-        <g transform="translate(60 340)"><circle r="22" fill="none" stroke="#39e05a" stroke-width="3" stroke-dasharray="6 6"/><text class="num" x="-14" y="-40">1</text><text class="lbl" x="-20" y="75">Book your bay</text><text class="sub" x="-20" y="98">pick a day, pick an hour, pay on your phone</text></g>
-        <g transform="translate(420 140)"><line x1="0" y1="0" x2="0" y2="-60" stroke="#efe7d3" stroke-width="3"/><path d="M0 -60 l 40 12 -40 12z" fill="#d7262e"/><text class="num" x="14" y="-74">2</text><text class="lbl" x="-20" y="-96">Walk in, grab a drink</text><text class="sub" x="-20" y="-120" style="fill:#c9c1ab">your bay's already loaded. clubs on the rack if you forgot yours.</text></g>
-        <g transform="translate(800 240)"><line x1="0" y1="0" x2="0" y2="-60" stroke="#efe7d3" stroke-width="3"/><path d="M0 -60 l 40 12 -40 12z" fill="#d7262e"/><text class="num" x="14" y="-74">3</text><text class="lbl" x="-30" y="60">Play a higher game</text><text class="sub" x="-30" y="84">eighteen, a range hour, or closest-to-the-pin for the tab</text></g>
-        <g transform="translate(1140 120)"><ellipse rx="34" ry="10" fill="#1f6b2e"/><line x1="0" y1="0" x2="0" y2="-64" stroke="#fff" stroke-width="3"/><path d="M0 -64 l 44 13 -44 13z" fill="#d7262e"/><text class="lbl" x="-48" y="48" style="fill:#39e05a">19th hole</text></g>
-      </svg>
-    </div>
-  </div>
-</section>
-
 <!-- ===================== BOOKING (prototype, scorecard) =====================
      BOOKING HOOK: everything here runs in the browser only. Phase 2 swaps
      renderSlots()/reserve() for the real booking system and the receipt's
@@ -615,7 +584,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
 <section class="book" id="book">
   <div class="wrap">
     <div class="book-head">
-      <div><div class="chap">No. 05 — Your scorecard</div>
+      <div><div class="chap">No. 04 — Your scorecard</div>
         <h2 class="rv">Grab a <em>tee time.</em></h2></div>
       <p class="lead rv d1">Circle a day, circle an hour, tell us how many are coming. Pay on the receipt and the bay is yours. <span class="flag-tag">preview · demo booking, no card charged</span></p>
     </div>
@@ -684,7 +653,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
 
 <section class="cork" id="leagues">
   <div class="wrap">
-    <div class="chap" style="color:#f5efe0">No. 06 — On the board</div>
+    <div class="chap" style="color:#f5efe0">No. 05 — On the board</div>
     <h2 class="rv">Winter leagues <em>start here</em></h2>
     <div class="notes">
       <div class="pinned rv"><span class="pin"></span><h3>Notice</h3><div class="big">Tuesday &amp; Thursday leagues</div><p>Eight weeks, two-person teams or solo, handicapped so the twelve can beat the four. Sign up by the week after Thanksgiving.</p><a href="#visit" class="mk">put my name down</a></div>
@@ -710,7 +679,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
 <section class="rules" id="rules">
   <div class="wrap rules-grid">
     <div>
-      <div class="chap">No. 07 — Clubhouse rules</div>
+      <div class="chap">No. 06 — Clubhouse rules</div>
       <h2 class="rv">Before you <em>swing.</em></h2>
       <div class="photo rv d1"><img src="assets/photos/ball.jpg" alt="Golf ball dimples up close"><span class="cap">dimples: 336, give or take</span></div>
     </div>
@@ -729,7 +698,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
 <section class="visit" id="visit">
   <div class="wrap visit-grid">
     <div>
-      <div class="chap">No. 08 — Find the Den</div>
+      <div class="chap">No. 07 — Find the Den</div>
       <h2 class="rv">Inside Game Time, <em>Lowell.</em></h2>
       <div class="napkin rv d1">
         <div class="ln"><span>Where</span><span>Game Time Sports, 1703 Middlesex St, Lowell <span class="flag-tag">confirm</span></span></div>
@@ -874,12 +843,6 @@ requestAnimationFrame(frame);
 const polas=$('#polas');
 if(!reduce){addEventListener('scroll',()=>{const r=polas.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
   const p=1-(r.top+r.height/2)/innerHeight;const maxShift=Math.max(0,polas.scrollWidth-innerWidth+40);polas.style.transform=`translateX(${-Math.min(maxShift,Math.max(0,p*maxShift*1.1))}px)`},{passive:true})}
-
-/* route map draws on scroll */
-const rp=$('#routeDraw'),rb=$('#routeBall'),RL=rp.getTotalLength();rp.style.strokeDasharray=RL;rp.style.strokeDashoffset=RL;
-function route(){const r=$('.map-wrap').getBoundingClientRect();const p=Math.min(1,Math.max(0,(innerHeight*.85-r.top)/(r.height+innerHeight*.3)));
-  rp.style.strokeDashoffset=RL*(1-p);const pt=rp.getPointAtLength(RL*p);rb.setAttribute('cx',pt.x);rb.setAttribute('cy',pt.y)}
-addEventListener('scroll',route,{passive:true});route();
 
 /* courses */
 const courses=['Pebble Beach','St Andrews Old','Torrey Pines','Bethpage Black','TPC Sawgrass','Pinehurst No. 2','Whistling Straits','Bandon Dunes','Kiawah Ocean','Harbour Town','Spyglass Hill','Royal Melbourne'];
