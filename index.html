@@ -294,9 +294,10 @@ header.solid{background:rgba(10,11,9,.82);backdrop-filter:blur(12px);padding:10p
 .receipt input{display:block;width:100%;padding:10px 2px;border:0;border-bottom:2px solid #333;background:transparent;font:18px var(--marker);color:#222;outline:none}
 .receipt input:focus{border-color:var(--felt)}
 .receipt .r2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.receipt .pay{display:block;width:100%;margin-top:26px;font-family:var(--disp);font-weight:800;font-style:italic;text-transform:uppercase;font-size:26px;background:#222;color:#fff;padding:14px;clip-path:polygon(1% 0,100% 4%,99% 100%,0 97%)}
+.receipt .pay{display:block;text-align:center;text-decoration:none;width:100%;margin-top:26px;font-family:var(--disp);font-weight:800;font-style:italic;text-transform:uppercase;font-size:26px;background:#222;color:#fff;padding:14px;clip-path:polygon(1% 0,100% 4%,99% 100%,0 97%)}
 .receipt .pay:hover{background:var(--felt-2)}
 .receipt .fine{font-size:11px;color:#777;text-align:center;margin-top:14px;line-height:1.6}
+.ticket a.again{display:inline-block;text-decoration:none;margin-right:8px}
 .receipt .demo{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);text-align:center;margin-top:8px;border:1px dashed var(--orange);padding:6px}
 .spin{display:inline-block;width:22px;height:22px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:rot .7s linear infinite;vertical-align:middle}
 @keyframes rot{to{transform:rotate(360deg)}}
@@ -597,15 +598,15 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
 </section>
 
 <!-- ===================== BOOKING (prototype, scorecard) =====================
-     BOOKING HOOK: everything here runs in the browser only. Phase 2 swaps
-     renderSlots()/reserve() for the real booking system and the receipt's
-     "Pay" for Stripe Checkout (or the booking tool's own payments). -->
+     BOOKING HOOK: the scorecard runs in the browser; the receipt's Pay button
+     opens Tyga's Square payment link (enter-amount checkout, 11/2/2026) and the
+     stub gives a one-tap text of the tee time. Swap for a real booking tool later. -->
 <section class="book" id="book">
   <div class="wrap">
     <div class="book-head">
       <div><div class="chap">No. 04 — Your scorecard</div>
         <h2 class="rv">Grab a <em>tee time.</em></h2></div>
-      <p class="lead rv d1">Circle a day, circle an hour, tell us how many are coming. Pay on the receipt and the bay is yours. <span class="flag-tag">preview · demo booking, no card charged</span></p>
+      <p class="lead rv d1">Circle a day, circle an hour, tell us how many are coming. Pay through Square, text us the time, and the bay is yours.</p>
     </div>
     <div class="card rv d1">
       <div class="head">
@@ -638,12 +639,12 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
             <p class="tiny">Free changes up to 24 hrs before <span class="flag-tag" style="margin:0">sample policy</span></p>
           </div>
           <div class="ticket" id="ticket">
-            <span class="paid">Paid</span>
-            <h4>You're on the tee.</h4>
+            <span class="paid">Sent</span>
+            <h4>Almost on the tee.</h4>
             <div class="code" id="t-code">TD-4K7Q</div>
-            <p class="tw" style="font-size:13px">confirmation would hit your phone + email</p>
+            <p class="tw" style="font-size:13px">paid on Square? text this stub to Tyga and the bay is held</p>
             <div class="stub" id="t-stub"></div>
-            <button class="again" id="again">book another</button>
+            <a class="again" id="t-sms" href="sms:+19787267203">text it to 978-726-7203</a> <button class="again" id="again">book another</button>
           </div>
         </div>
       </div>
@@ -761,25 +762,16 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
 </footer>
 <a href="#top" id="totop" aria-label="Back to top">↑</a>
 
-<!-- receipt drawer (PAYMENT HOOK: replace with Stripe Checkout / booking tool payment) -->
+<!-- receipt drawer (PAYMENT HOOK: the Pay button is Tyga's Square link; change the href to move it) -->
 <div id="drawer" role="dialog" aria-modal="true" aria-label="Checkout">
   <div class="bg" id="dbg"></div>
   <div class="receipt">
     <button class="x" id="dx" aria-label="Close">✕</button>
     <h3>Tigers Den · Receipt</h3>
     <div id="dsum" style="margin-top:14px"></div>
-    <form id="payform" onsubmit="return pay(event)">
-      <label>Name on card<input required autocomplete="cc-name" placeholder="sign here"></label>
-      <label>Card number<input required inputmode="numeric" id="cc" placeholder="4242 4242 4242 4242" maxlength="19"></label>
-      <div class="r2">
-        <label>Expiry<input required id="exp" placeholder="MM / YY" maxlength="7"></label>
-        <label>CVC<input required inputmode="numeric" placeholder="123" maxlength="4"></label>
-      </div>
-      <label>Email for the confirmation<input required type="email" autocomplete="email" placeholder="you@email.com"></label>
-      <button class="pay" type="submit" id="paybtn"><span id="paylbl">Pay <span id="payamt"></span></span></button>
-      <p class="fine">Preview. Nothing is charged and nothing is stored. The real checkout runs through a secure payment processor.</p>
-      <div class="demo">demo card · any numbers work</div>
-    </form>
+    <a class="pay" id="paybtn" href="https://square.link/u/lXKD8zDc" target="_blank" rel="noopener" onclick="pay()">Pay <span id="payamt"></span> on Square →</a>
+    <p class="fine">Square opens in a new tab. Type <b id="payamt2"></b> as the amount and pay, then text your tee time to 978-726-7203 so we hold the bay.</p>
+    <div class="demo">secure checkout by Square · Tygastyle Entertainment Group LLC</div>
   </div>
 </div>
 <canvas id="confetti"></canvas>
@@ -906,16 +898,14 @@ renderDays();renderSlots();sum();
 const drawer=$('#drawer');
 $('#reserve').onclick=()=>{const d=dayAt(state.day),total=rate()*state.hours;
   $('#dsum').innerHTML=`<div class="ln"><span>Bay 01 · ${dn[d.getDay()]} ${mn[d.getMonth()]} ${d.getDate()}</span><span>${fmt(state.slot)}</span></div><div class="ln"><span>${state.hours} hr × $${rate()}</span><span>$${total}.00</span></div><div class="ln"><span>${state.players} player${state.players>1?'s':''}</span><span>≈ $${(total/state.players).toFixed(0)} each</span></div><div class="ln t"><span>Total</span><span>$${total}.00</span></div>`;
-  $('#payamt').textContent='$'+total;drawer.classList.add('open');document.body.style.overflow='hidden'};
+  $('#payamt').textContent='$'+total;$('#payamt2').textContent='$'+total;drawer.classList.add('open');document.body.style.overflow='hidden'};
 const closeD=()=>{drawer.classList.remove('open');document.body.style.overflow=''};
 $('#dx').onclick=closeD;$('#dbg').onclick=closeD;
-$('#cc').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,16).replace(/(.{4})/g,'$1 ').trim()});
-$('#exp').addEventListener('input',e=>{let v=e.target.value.replace(/\D/g,'').slice(0,4);if(v.length>2)v=v.slice(0,2)+' / '+v.slice(2);e.target.value=v});
-function pay(e){e.preventDefault();const btn=$('#paybtn');btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
-  setTimeout(()=>{closeD();btn.disabled=false;btn.innerHTML='<span id="paylbl">Pay <span id="payamt"></span></span>';
-    const d=dayAt(state.day),code='TD-'+Math.random().toString(36).slice(2,6).toUpperCase();$('#t-code').textContent=code;
-    $('#t-stub').innerHTML=`BAY 01 · FULL SWING<br>${dn[d.getDay()].toUpperCase()} ${mn[d.getMonth()].toUpperCase()} ${d.getDate()} · ${fmt(state.slot).toUpperCase()}<br>${state.hours} HR · ${state.players} PLAYERS<br>PAID $${rate()*state.hours}.00 · ${code}`;
-    $('#sumbody').style.display='none';const tk=$('#ticket');tk.style.display='block';const paid=tk.querySelector('.paid');paid.style.animation='none';paid.offsetHeight;paid.style.animation='';tk.scrollIntoView({behavior:'smooth',block:'center'});confetti()},1500);return false}
+function pay(){closeD();const d=dayAt(state.day),total=rate()*state.hours,when=`${dn[d.getDay()]} ${mn[d.getMonth()]} ${d.getDate()} ${fmt(state.slot)}`;
+  $('#t-code').textContent='$'+total+' on Square';
+  $('#t-stub').innerHTML=`BAY 01 · FULL SWING<br>${when.toUpperCase()}<br>${state.hours} HR · ${state.players} PLAYERS<br>$${total}.00 VIA SQUARE`;
+  $('#t-sms').href='sms:+19787267203?&body='+encodeURIComponent(`Tigers Den tee time: ${when}, ${state.hours} hr, ${state.players} players, paid $${total} on Square. Name: `);
+  $('#sumbody').style.display='none';const tk=$('#ticket');tk.style.display='block';const paid=tk.querySelector('.paid');paid.style.animation='none';paid.offsetHeight;paid.style.animation='';setTimeout(()=>{tk.scrollIntoView({behavior:'smooth',block:'center'});confetti()},300)}
 $('#again').onclick=()=>{$('#ticket').style.display='none';$('#sumbody').style.display='block';state.slot=null;renderSlots();sum()};
 
 /* confetti */
