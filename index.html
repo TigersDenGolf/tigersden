@@ -606,7 +606,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
     <div class="book-head">
       <div><div class="chap">No. 04 — Your scorecard</div>
         <h2 class="rv">Grab a <em>tee time.</em></h2></div>
-      <p class="lead rv d1">Circle a day, circle an hour, tell us how many are coming. Pay through Square, text us the time, and the bay is yours.</p>
+      <p class="lead rv d1">Circle a day, circle an hour, tell us how many are coming. Pay through Square, text us the time at 978-726-7203 or Tyga's cell 978-430-4315, and the bay is yours.</p>
     </div>
     <div class="card rv d1">
       <div class="head">
@@ -644,7 +644,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
             <div class="code" id="t-code">TD-4K7Q</div>
             <p class="tw" style="font-size:13px">paid on Square? text this stub to Tyga and the bay is held</p>
             <div class="stub" id="t-stub"></div>
-            <a class="again" id="t-sms" href="sms:+19787267203">text it to 978-726-7203</a> <button class="again" id="again">book another</button>
+            <a class="again" id="t-sms" href="sms:+19787267203">text it to 978-726-7203</a> <a class="again" id="t-sms2" href="sms:+19784304315">or Tyga 978-430-4315</a> <button class="again" id="again">book another</button>
           </div>
         </div>
       </div>
@@ -725,7 +725,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
         <div class="ln"><span>Opening</span><span>December 2026 <span class="flag-tag">exact date</span></span></div>
         <div class="ln"><span>Hours</span><span>coming soon <span class="flag-tag">hours</span></span></div>
         <div class="ln"><span>Call / text</span><span>978-726-7203<br>Tyga's cell 978-430-4315</span></div>
-        <div class="ln"><span>Email</span><span>hello@tigersdengolf.com <span class="flag-tag">once set up</span></span></div>
+        <div class="ln"><span>Email</span><span><a href="mailto:info@tigersdengolf.com">info@tigersdengolf.com</a></span></div>
       </div>
       <div class="mapbox rv d2"><iframe title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Game%20Time%20Sports%2C%2070%20Princeton%20St%2C%20North%20Chelmsford%2C%20MA&z=15&output=embed"></iframe></div>
     </div>
@@ -770,7 +770,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
     <h3>Tigers Den · Receipt</h3>
     <div id="dsum" style="margin-top:14px"></div>
     <a class="pay" id="paybtn" href="https://square.link/u/lXKD8zDc" target="_blank" rel="noopener" onclick="pay()">Pay <span id="payamt"></span> on Square →</a>
-    <p class="fine">Square opens in a new tab. Type <b id="payamt2"></b> as the amount and pay, then text your tee time to 978-726-7203 so we hold the bay.</p>
+    <p class="fine">Square opens in a new tab. Type <b id="payamt2"></b> as the amount and pay, then text your tee time to 978-726-7203 or Tyga's cell 978-430-4315 so we hold the bay.</p>
     <div class="demo">secure checkout by Square · Tygastyle Entertainment Group LLC</div>
   </div>
 </div>
@@ -905,6 +905,7 @@ function pay(){closeD();const d=dayAt(state.day),total=rate()*state.hours,when=`
   $('#t-code').textContent='$'+total+' on Square';
   $('#t-stub').innerHTML=`BAY 01 · FULL SWING<br>${when.toUpperCase()}<br>${state.hours} HR · ${state.players} PLAYERS<br>$${total}.00 VIA SQUARE`;
   $('#t-sms').href='sms:+19787267203?&body='+encodeURIComponent(`Tigers Den tee time: ${when}, ${state.hours} hr, ${state.players} players, paid $${total} on Square. Name: `);
+  $('#t-sms2').href='sms:+19784304315?&body='+encodeURIComponent(`Tigers Den tee time: ${when}, ${state.hours} hr, ${state.players} players, paid $${total} on Square. Name: `);
   $('#sumbody').style.display='none';const tk=$('#ticket');tk.style.display='block';const paid=tk.querySelector('.paid');paid.style.animation='none';paid.offsetHeight;paid.style.animation='';setTimeout(()=>{tk.scrollIntoView({behavior:'smooth',block:'center'});confetti()},300)}
 $('#again').onclick=()=>{$('#ticket').style.display='none';$('#sumbody').style.display='block';state.slot=null;renderSlots();sum()};
 
