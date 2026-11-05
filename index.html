@@ -937,9 +937,9 @@ if(!BOOKING_OPEN){
   $('.book .lead').textContent='Booking opens when the bay does, in December. Sign the guest book and you get first pick of tee times and league nights. Until then, poke around the card.';
   $('#reserve').outerHTML='<a class="paybtn" id="reserve" href="#guest" style="text-decoration:none">Sign the guest book →</a>';
 }
-/* guest book (SIGNUP HOOK): Google Form "Tigers Den guest book". Every booking and every sign-up lands in its sheet. */
-const GUESTBOOK={url:'https://docs.google.com/forms/d/e/1FAIpQLSfit-CnHgJS5FBffIIWnKNDiRI7eIkxQgoFON3qEfz2GPBI-A/formResponse',
-  name:'entry.584746959',email:'entry.1738101285',phone:'entry.2098226672',interest:'entry.1061769833',tee:'entry.924825953',source:'entry.146708816'};
+/* guest book (SIGNUP HOOK): Google Form "Tigers Den guest book" owned by info@tigersdengolf.com (moved 2026-11-05). Every booking and every sign-up lands in its sheet. */
+const GUESTBOOK={url:'https://docs.google.com/forms/d/e/1FAIpQLScoqgQ6BGoUN3eH5M0wtBn2gVq_qZm74yW6BwWKe1SsmXLT0g/formResponse',
+  name:'entry.1719452789',email:'entry.1985486510',phone:'entry.1106978806',interest:'entry.1644364273',tee:'entry.183887822',source:'entry.1906786445'};
 function guestPost(v){const fd=new FormData();for(const k of ['name','email','phone','interest','tee','source'])fd.append(GUESTBOOK[k],v[k]||'');
   try{navigator.sendBeacon?navigator.sendBeacon(GUESTBOOK.url,fd):fetch(GUESTBOOK.url,{method:'POST',mode:'no-cors',body:fd,keepalive:true})}catch(e){}}
 function guestSubmit(e){e.preventDefault();const f=e.target;
