@@ -734,8 +734,8 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
       <div class="mapbox rv d2"><iframe title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Game%20Time%20Sports%2C%2070%20Princeton%20St%2C%20North%20Chelmsford%2C%20MA&z=15&output=embed"></iframe></div>
     </div>
     <div>
-      <!-- SIGNUP HOOK: posts nowhere yet. Point at a Google Form / Mailchimp / Formspree for pre-launch sign-ups. -->
-      <form class="guest rv d1" onsubmit="return fakeSubmit(event)">
+      <!-- SIGNUP HOOK: every sign-up and every booking posts to the Google Form "Tigers Den guest book" (sheet "Tigers Den guest book (responses)", John's Google, 11/5/2026). IDs in GUESTBOOK below. -->
+      <form class="guest rv d1" onsubmit="return guestSubmit(event)">
         <div id="formBody">
           <h3>Sign the guest book</h3>
           <p class="sub">Online booking goes live closer to opening. Leave your name and you'll get first pick of tee times and league nights.</p>
@@ -748,7 +748,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
             <label>I'm here for<select name="interest"><option>Booking a bay</option><option>Winter league</option><option>A party or outing</option><option>Practice / lessons</option></select></label>
           </div>
           <button class="go" type="submit">Count me in</button>
-          <p class="tiny">preview · nothing is sent yet</p>
+          <p class="tiny">we only use this to reach you about tee times, leagues and opening news</p>
         </div>
         <div class="ok" id="ok">You're in the book. See you in December.</div>
       </form>
@@ -774,7 +774,8 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
     <button class="x" id="dx" aria-label="Close">✕</button>
     <h3>Tigers Den · Receipt</h3>
     <div id="dsum" style="margin-top:14px"></div>
-    <a class="pay" id="paybtn" href="sms:+19784304315" onclick="pay()">Text us the tee time →</a>
+    <div class="r2"><label>Name<input id="r-name" autocomplete="name" placeholder="your name"></label><label>Email<input id="r-email" type="email" autocomplete="email" placeholder="you@email.com"></label></div>
+    <a class="pay" id="paybtn" href="sms:+19784304315" onclick="return pay(event)">Text us the tee time →</a>
     <p class="fine">Opens a text to 978-430-4315 with your tee time filled in. We text back to confirm. <b id="payamt2"></b> is due when you arrive, card or cash at the bay.<span id="venmoline"></span></p>
     <div class="demo">pay when you arrive · Tygastyle Entertainment Group LLC</div>
   </div>
@@ -905,16 +906,21 @@ $('#reserve').onclick=()=>{const d=dayAt(state.day),total=rate()*state.hours;
   $('#dsum').innerHTML=`<div class="ln"><span>Bay 01 · ${dn[d.getDay()]} ${mn[d.getMonth()]} ${d.getDate()}</span><span>${fmt(state.slot)}</span></div><div class="ln"><span>${state.hours} hr × $${rate()}</span><span>$${total}.00</span></div><div class="ln"><span>${state.players} player${state.players>1?'s':''}</span><span>≈ $${(total/state.players).toFixed(0)} each</span></div><div class="ln t"><span>Total</span><span>$${total}.00</span></div>`;
   const dd=`${dn[d.getDay()]} ${mn[d.getMonth()]} ${d.getDate()} ${fmt(state.slot)}`;
   $('#paybtn').href='sms:+19784304315?&body='+encodeURIComponent(`Tigers Den tee time: ${dd}, ${state.hours} hr, ${state.players} players, $${total} to pay when we arrive. Name: `);
-  $('#payamt2').textContent='$'+total;drawer.classList.add('open');document.body.style.overflow='hidden'};
+  $('#payamt2').textContent='$'+total;$('#paybtn').dataset.when=dd;$('#paybtn').dataset.total=total;drawer.classList.add('open');document.body.style.overflow='hidden'};
 /* PAYMENT HOOK: Venmo. Set VENMO to Tyga's business handle (e.g. 'TigersDenGolf') and the receipt offers it. Empty = pay at the bay only. */
 const VENMO='';
 if(VENMO){$('#venmoline').innerHTML=` Or pay ahead on Venmo: <a href="https://venmo.com/u/${VENMO}" target="_blank" rel="noopener">@${VENMO}</a>.`}
 const closeD=()=>{drawer.classList.remove('open');document.body.style.overflow=''};
 $('#dx').onclick=closeD;$('#dbg').onclick=closeD;
-function pay(){closeD();const d=dayAt(state.day),total=rate()*state.hours,when=`${dn[d.getDay()]} ${mn[d.getMonth()]} ${d.getDate()} ${fmt(state.slot)}`;
+function pay(ev){const nm=$('#r-name').value.trim(),em=$('#r-email').value.trim();
+  if(!nm||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ev.preventDefault();(!nm?$('#r-name'):$('#r-email')).focus();(!nm?$('#r-name'):$('#r-email')).style.borderColor='var(--red)';return false}
+  const d0=dayAt(state.day),when0=`${dn[d0.getDay()]} ${mn[d0.getMonth()]} ${d0.getDate()} ${fmt(state.slot)}`,tot0=rate()*state.hours;
+  guestPost({name:nm,email:em,phone:'',interest:'Booking a bay',tee:`${when0}, ${state.hours} hr, ${state.players} players, $${tot0}`,source:'Booking'});
+  $('#paybtn').href='sms:+19784304315?&body='+encodeURIComponent(`Tigers Den tee time: ${when0}, ${state.hours} hr, ${state.players} players, $${tot0} to pay when we arrive. Name: ${nm}`);
+  closeD();const d=dayAt(state.day),total=rate()*state.hours,when=`${dn[d.getDay()]} ${mn[d.getMonth()]} ${d.getDate()} ${fmt(state.slot)}`;
   $('#t-code').textContent='$'+total+' at the bay';
   $('#t-stub').innerHTML=`BAY 01 · FULL SWING<br>${when.toUpperCase()}<br>${state.hours} HR · ${state.players} PLAYERS<br>$${total}.00 · PAY WHEN YOU ARRIVE`;
-  $('#t-sms').href='sms:+19784304315?&body='+encodeURIComponent(`Tigers Den tee time: ${when}, ${state.hours} hr, ${state.players} players, $${total} to pay when we arrive. Name: `);
+  $('#t-sms').href='sms:+19784304315?&body='+encodeURIComponent(`Tigers Den tee time: ${when}, ${state.hours} hr, ${state.players} players, $${total} to pay when we arrive. Name: ${nm}`);
   $('#sumbody').style.display='none';const tk=$('#ticket');tk.style.display='block';const paid=tk.querySelector('.paid');paid.style.animation='none';paid.offsetHeight;paid.style.animation='';setTimeout(()=>{tk.scrollIntoView({behavior:'smooth',block:'center'});confetti()},300)}
 $('#again').onclick=()=>{$('#ticket').style.display='none';$('#sumbody').style.display='block';state.slot=null;renderSlots();sum()};
 
@@ -924,8 +930,14 @@ function confetti(){if(reduce)return;const c=$('#confetti'),x=c.getContext('2d')
   const t0=performance.now();(function f(t){x.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=p.s;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6);x.restore()});
     if(t-t0<2600)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})(t0)}
 
-/* guest book (SIGNUP HOOK) */
-function fakeSubmit(e){e.preventDefault();$('#formBody').style.display='none';$('#ok').style.display='block';return false}
+/* guest book (SIGNUP HOOK): Google Form "Tigers Den guest book". Every booking and every sign-up lands in its sheet. */
+const GUESTBOOK={url:'https://docs.google.com/forms/d/e/1FAIpQLSfit-CnHgJS5FBffIIWnKNDiRI7eIkxQgoFON3qEfz2GPBI-A/formResponse',
+  name:'entry.584746959',email:'entry.1738101285',phone:'entry.2098226672',interest:'entry.1061769833',tee:'entry.924825953',source:'entry.146708816'};
+function guestPost(v){const fd=new FormData();for(const k of ['name','email','phone','interest','tee','source'])fd.append(GUESTBOOK[k],v[k]||'');
+  try{navigator.sendBeacon?navigator.sendBeacon(GUESTBOOK.url,fd):fetch(GUESTBOOK.url,{method:'POST',mode:'no-cors',body:fd,keepalive:true})}catch(e){}}
+function guestSubmit(e){e.preventDefault();const f=e.target;
+  guestPost({name:f.name.value.trim(),email:f.email.value.trim(),phone:f.phone.value.trim(),interest:f.interest.value,tee:'',source:'Guest book'});
+  $('#formBody').style.display='none';$('#ok').style.display='block';return false}
 </script>
 </body>
 </html>
