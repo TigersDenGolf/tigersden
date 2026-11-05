@@ -7,7 +7,11 @@
 <meta name="description" content="Tigers Den: a Full Swing golf simulator bay inside Game Time Sports, North Chelmsford MA. Play, practice, compete, unwind. Opening December 2026.">
 <meta property="og:title" content="Tigers Den Golf Simulator">
 <meta property="og:description" content="Play a higher game. Full Swing simulator bay in North Chelmsford, MA. Opening December 2026.">
-<meta property="og:image" content="assets/logo-full-1200.png">
+<meta property="og:image" content="https://tigersdengolf.com/assets/logo-full-1200.png">
+<meta property="og:url" content="https://tigersdengolf.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://tigersdengolf.com/">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <!-- ANALYTICS HOOK: visitor counting via GoatCounter (John's account). Site code "tigersden" must exist at goatcounter.com → Settings → Sites. Dashboard: https://tigersden.goatcounter.com -->
 <script data-goatcounter="https://tigersden.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -281,7 +285,7 @@ header.solid{background:rgba(10,11,9,.82);backdrop-filter:blur(12px);padding:10p
 
 /* receipt drawer */
 #drawer{position:fixed;inset:0;z-index:150;display:none}
-#drawer.open{display:block}
+#drawer.open{display:block;overflow:auto;-webkit-overflow-scrolling:touch}
 #drawer .bg{position:absolute;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px)}
 .receipt{position:absolute;right:4vw;top:0;width:min(440px,92vw);background:#fff;color:#222;font-family:var(--type);padding:34px 28px 50px;transform:translateY(-105%);animation:dropin .6s cubic-bezier(.2,1,.3,1) forwards;box-shadow:0 40px 80px rgba(0,0,0,.6);
   clip-path:polygon(0 0,100% 0,100% calc(100% - 14px),97% 100%,94% calc(100% - 14px),91% 100%,88% calc(100% - 14px),85% 100%,82% calc(100% - 14px),79% 100%,76% calc(100% - 14px),73% 100%,70% calc(100% - 14px),67% 100%,64% calc(100% - 14px),61% 100%,58% calc(100% - 14px),55% 100%,52% calc(100% - 14px),49% 100%,46% calc(100% - 14px),43% 100%,40% calc(100% - 14px),37% 100%,34% calc(100% - 14px),31% 100%,28% calc(100% - 14px),25% 100%,22% calc(100% - 14px),19% 100%,16% calc(100% - 14px),13% 100%,10% calc(100% - 14px),7% 100%,4% calc(100% - 14px),1% 100%,0 calc(100% - 14px));max-height:100svh;overflow:auto}
@@ -468,7 +472,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
   .pinned:hover{transform:inherit}
   .screen,.board{transform:none}
 }
-@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}#loader{display:none}.hero .logo-hero,.hero h1,.hero .sub,.hero .ctas,.badge{opacity:1}}
+@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.receipt{transform:none}#loader{display:none}.hero .logo-hero,.hero h1,.hero .sub,.hero .ctas,.badge{opacity:1}}
 </style>
 </head>
 <body>
@@ -598,15 +602,15 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
 </section>
 
 <!-- ===================== BOOKING (prototype, scorecard) =====================
-     BOOKING HOOK: the scorecard runs in the browser; the receipt's Pay button
-     opens Tyga's Square payment link (enter-amount checkout, 11/2/2026) and the
-     stub gives a one-tap text of the tee time. Swap for a real booking tool later. -->
+     BOOKING HOOK: the scorecard runs in the browser; the receipt's button sends a
+     prefilled text of the tee time to Tyga's cell (11/5/2026: pay when you arrive,
+     Square link removed at his ask). Swap for a real booking tool later. -->
 <section class="book" id="book">
   <div class="wrap">
     <div class="book-head">
       <div><div class="chap">No. 04 — Your scorecard</div>
         <h2 class="rv">Grab a <em>tee time.</em></h2></div>
-      <p class="lead rv d1">Circle a day, circle an hour, tell us how many are coming. Pay through Square, text us the time at 978-430-4315, and the bay is yours.</p>
+      <p class="lead rv d1">Circle a day, circle an hour, tell us how many are coming. Text us the time at 978-430-4315, pay when you get here, and the bay is yours.</p>
     </div>
     <div class="card rv d1">
       <div class="head">
@@ -635,14 +639,14 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
             <div class="ln"><span>Rate</span><span id="s-rate">$60 / hr</span></div>
             <div class="big"><small>Total</small><b id="s-total">$0</b></div>
             <span class="per" id="s-per">&nbsp;</span>
-            <button class="paybtn" id="reserve" disabled>Reserve &amp; pay →</button>
+            <button class="paybtn" id="reserve" disabled>Reserve →</button>
             <p class="tiny">Free changes up to 24 hrs before <span class="flag-tag" style="margin:0">sample policy</span></p>
           </div>
           <div class="ticket" id="ticket">
             <span class="paid">Sent</span>
             <h4>Almost on the tee.</h4>
             <div class="code" id="t-code">TD-4K7Q</div>
-            <p class="tw" style="font-size:13px">paid on Square? text this stub to us and the bay is held</p>
+            <p class="tw" style="font-size:13px">text sent? we text back to confirm and the bay is held. pay when you arrive.</p>
             <div class="stub" id="t-stub"></div>
             <a class="again" id="t-sms" href="sms:+19784304315">text it to 978-430-4315</a> <button class="again" id="again">book another</button>
           </div>
@@ -762,16 +766,17 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
 </footer>
 <a href="#top" id="totop" aria-label="Back to top">↑</a>
 
-<!-- receipt drawer (PAYMENT HOOK: the Pay button is Tyga's Square link; change the href to move it) -->
+<!-- receipt drawer (PAYMENT HOOK: pay when you arrive. The button is a prefilled text to Tyga's cell.
+     To add Venmo later: put his business handle in VENMO below and the "or pay on Venmo" line appears.) -->
 <div id="drawer" role="dialog" aria-modal="true" aria-label="Checkout">
   <div class="bg" id="dbg"></div>
   <div class="receipt">
     <button class="x" id="dx" aria-label="Close">✕</button>
     <h3>Tigers Den · Receipt</h3>
     <div id="dsum" style="margin-top:14px"></div>
-    <a class="pay" id="paybtn" href="https://square.link/u/lXKD8zDc" target="_blank" rel="noopener" onclick="pay()">Pay <span id="payamt"></span> on Square →</a>
-    <p class="fine">Square opens in a new tab. Type <b id="payamt2"></b> as the amount and pay, then text your tee time to 978-430-4315 so we hold the bay.</p>
-    <div class="demo">secure checkout by Square · Tygastyle Entertainment Group LLC</div>
+    <a class="pay" id="paybtn" href="sms:+19784304315" onclick="pay()">Text us the tee time →</a>
+    <p class="fine">Opens a text to 978-430-4315 with your tee time filled in. We text back to confirm. <b id="payamt2"></b> is due when you arrive, card or cash at the bay.<span id="venmoline"></span></p>
+    <div class="demo">pay when you arrive · Tygastyle Entertainment Group LLC</div>
   </div>
 </div>
 <canvas id="confetti"></canvas>
@@ -898,13 +903,18 @@ renderDays();renderSlots();sum();
 const drawer=$('#drawer');
 $('#reserve').onclick=()=>{const d=dayAt(state.day),total=rate()*state.hours;
   $('#dsum').innerHTML=`<div class="ln"><span>Bay 01 · ${dn[d.getDay()]} ${mn[d.getMonth()]} ${d.getDate()}</span><span>${fmt(state.slot)}</span></div><div class="ln"><span>${state.hours} hr × $${rate()}</span><span>$${total}.00</span></div><div class="ln"><span>${state.players} player${state.players>1?'s':''}</span><span>≈ $${(total/state.players).toFixed(0)} each</span></div><div class="ln t"><span>Total</span><span>$${total}.00</span></div>`;
-  $('#payamt').textContent='$'+total;$('#payamt2').textContent='$'+total;drawer.classList.add('open');document.body.style.overflow='hidden'};
+  const dd=`${dn[d.getDay()]} ${mn[d.getMonth()]} ${d.getDate()} ${fmt(state.slot)}`;
+  $('#paybtn').href='sms:+19784304315?&body='+encodeURIComponent(`Tigers Den tee time: ${dd}, ${state.hours} hr, ${state.players} players, $${total} to pay when we arrive. Name: `);
+  $('#payamt2').textContent='$'+total;drawer.classList.add('open');document.body.style.overflow='hidden'};
+/* PAYMENT HOOK: Venmo. Set VENMO to Tyga's business handle (e.g. 'TigersDenGolf') and the receipt offers it. Empty = pay at the bay only. */
+const VENMO='';
+if(VENMO){$('#venmoline').innerHTML=` Or pay ahead on Venmo: <a href="https://venmo.com/u/${VENMO}" target="_blank" rel="noopener">@${VENMO}</a>.`}
 const closeD=()=>{drawer.classList.remove('open');document.body.style.overflow=''};
 $('#dx').onclick=closeD;$('#dbg').onclick=closeD;
 function pay(){closeD();const d=dayAt(state.day),total=rate()*state.hours,when=`${dn[d.getDay()]} ${mn[d.getMonth()]} ${d.getDate()} ${fmt(state.slot)}`;
-  $('#t-code').textContent='$'+total+' on Square';
-  $('#t-stub').innerHTML=`BAY 01 · FULL SWING<br>${when.toUpperCase()}<br>${state.hours} HR · ${state.players} PLAYERS<br>$${total}.00 VIA SQUARE`;
-  $('#t-sms').href='sms:+19784304315?&body='+encodeURIComponent(`Tigers Den tee time: ${when}, ${state.hours} hr, ${state.players} players, paid $${total} on Square. Name: `);
+  $('#t-code').textContent='$'+total+' at the bay';
+  $('#t-stub').innerHTML=`BAY 01 · FULL SWING<br>${when.toUpperCase()}<br>${state.hours} HR · ${state.players} PLAYERS<br>$${total}.00 · PAY WHEN YOU ARRIVE`;
+  $('#t-sms').href='sms:+19784304315?&body='+encodeURIComponent(`Tigers Den tee time: ${when}, ${state.hours} hr, ${state.players} players, $${total} to pay when we arrive. Name: `);
   $('#sumbody').style.display='none';const tk=$('#ticket');tk.style.display='block';const paid=tk.querySelector('.paid');paid.style.animation='none';paid.offsetHeight;paid.style.animation='';setTimeout(()=>{tk.scrollIntoView({behavior:'smooth',block:'center'});confetti()},300)}
 $('#again').onclick=()=>{$('#ticket').style.display='none';$('#sumbody').style.display='block';state.slot=null;renderSlots();sum()};
 
