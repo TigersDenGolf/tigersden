@@ -735,7 +735,7 @@ footer .word{width:min(1400px,120vw);margin:0 auto -4vw;opacity:.9;transform:rot
     </div>
     <div>
       <!-- SIGNUP HOOK: every sign-up and every booking posts to the Google Form "Tigers Den guest book" (sheet "Tigers Den guest book (responses)", John's Google, 11/5/2026). IDs in GUESTBOOK below. -->
-      <form class="guest rv d1" onsubmit="return guestSubmit(event)">
+      <form class="guest rv d1" id="guest" onsubmit="return guestSubmit(event)">
         <div id="formBody">
           <h3>Sign the guest book</h3>
           <p class="sub">Online booking goes live closer to opening. Leave your name and you'll get first pick of tee times and league nights.</p>
@@ -930,6 +930,13 @@ function confetti(){if(reduce)return;const c=$('#confetti'),x=c.getContext('2d')
   const t0=performance.now();(function f(t){x.clearRect(0,0,c.width,c.height);ps.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=p.s;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6);x.restore()});
     if(t-t0<2600)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})(t0)}
 
+/* LAUNCH SWITCH: BOOKING_OPEN=false until the bay opens. False = every "book" link and the scorecard's button send people to the guest book instead; the list fills up before launch. Set true on opening day and push. */
+const BOOKING_OPEN=false;
+if(!BOOKING_OPEN){
+  document.querySelectorAll('a[href="#book"]').forEach(a=>{a.href='#guest';if(/book a bay/i.test(a.textContent))a.textContent='Guest book';if(/grab a tee time/i.test(a.textContent))a.textContent='Sign the guest book'});
+  $('.book .lead').textContent='Booking opens when the bay does, in December. Sign the guest book and you get first pick of tee times and league nights. Until then, poke around the card.';
+  $('#reserve').outerHTML='<a class="paybtn" id="reserve" href="#guest" style="text-decoration:none">Sign the guest book →</a>';
+}
 /* guest book (SIGNUP HOOK): Google Form "Tigers Den guest book". Every booking and every sign-up lands in its sheet. */
 const GUESTBOOK={url:'https://docs.google.com/forms/d/e/1FAIpQLSfit-CnHgJS5FBffIIWnKNDiRI7eIkxQgoFON3qEfz2GPBI-A/formResponse',
   name:'entry.584746959',email:'entry.1738101285',phone:'entry.2098226672',interest:'entry.1061769833',tee:'entry.924825953',source:'entry.146708816'};
